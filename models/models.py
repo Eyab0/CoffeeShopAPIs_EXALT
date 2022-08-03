@@ -8,13 +8,6 @@ import sqlalchemy as sa
 Base = declarative_base()
 
 
-# address = relationship("Address", back_populates="user", uselist=False, cascade="all, delete",
-#                        passive_deletes=True)
-#
-# phone_numbers = relationship("PhoneNumbers", back_populates="user", cascade="all, delete",
-#                              passive_deletes=True)
-
-
 class Emp(Base):
     __tablename__ = "Emp"
     __table_args__ = {'extend_existing': True}
@@ -29,13 +22,6 @@ class Emp(Base):
     join_date = sa.Column(sa.DATE, nullable=False, default=date)
     role = sa.Column(sa.String, nullable=False)
     UniqueConstraint(phone_number)
-
-    #
-    # address = relationship("Address", back_populates="user", uselist=False, cascade="all, delete",
-    #                        passive_deletes=True)
-    #
-    # phone_numbers = relationship("PhoneNumbers", back_populates="user", cascade="all, delete",
-    #                              passive_deletes=True)
 
     def __repr__(self):
         return f"{self.__class__.__name__}({', '.join([f'{k}={v!r}' for k, v in self.__dict__.items() if not k.startswith('_')])}) "
