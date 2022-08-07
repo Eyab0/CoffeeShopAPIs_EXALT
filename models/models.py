@@ -72,8 +72,8 @@ class OrderItem(Base):
     __tablename__ = "OrderItem "
     __table_args__ = {'extend_existing': True}
 
-    order_id = sa.Column(sa.Integer, sa.ForeignKey("Order.id"), primary_key=True)
-    item_id = sa.Column(sa.String, sa.ForeignKey("Item.id"), nullable=False)
+    order_id = sa.Column(sa.Integer, sa.ForeignKey("Order.id", ondelete="CASCADE"), primary_key=True)
+    item_id = sa.Column(sa.String, sa.ForeignKey("Item.id", ondelete="CASCADE"), nullable=False)
     quantity = sa.Column(sa.Integer, nullable=False)
     description = sa.Column(sa.String, nullable=True)
     order = relationship(Order, back_populates="OrderItem")
