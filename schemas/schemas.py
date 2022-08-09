@@ -40,10 +40,10 @@ class OrderSchema(SQLAlchemyAutoSchema):
     order_items = Nested(OrderItemSchema, many=True)
 
 
-class BillSchema(SQLAlchemyAutoSchema):
-    class Meta:
-        model = Bill
-        include_relationships = True
-        load_instance = True
-
-    order = Nested(OrderSchema, many=False)
+# class BillSchema(SQLAlchemyAutoSchema):
+#     class Meta:
+#         model = Bill
+#         include_relationships = True
+#         load_instance = True
+#
+#     order = Nested(OrderSchema, many=False)

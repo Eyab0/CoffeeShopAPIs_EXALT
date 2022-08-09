@@ -9,7 +9,7 @@ Base = declarative_base()
 
 
 class Employee(Base):
-    __tablename__ = "Employee"
+    __tablename__ = "employee"
     __table_args__ = {'extend_existing': True}
 
     id = sa.Column(sa.Integer, primary_key=True)
@@ -26,18 +26,18 @@ class Employee(Base):
 
 
 class Order(Base):
-    __tablename__ = "Order"
+    __tablename__ = "order"
     __table_args__ = {'extend_existing': True}
 
     id = sa.Column(sa.Integer, primary_key=True)
 
-    employee_id = sa.Column(sa.Integer, sa.ForeignKey("Employee.id"))
-    employee = relationship(Employee, back_populates="Employee")
+    employee_id = sa.Column(sa.Integer, sa.ForeignKey("employee.id"))
+    employee = relationship(Employee, back_populates="employee")
 
-    customer_id = sa.Column(sa.Integer, sa.ForeignKey("Customer.id"))
-    customer = relationship(Employee, back_populates="Customer")
+    customer_id = sa.Column(sa.Integer, sa.ForeignKey("customer.id"))
+    customer = relationship(Employee, back_populates="customer")
 
-    items_ordered = relationship("OrderItem ", back_populates="Order", cascade="all, delete",
+    items_ordered = relationship("orderItem", back_populates="order", cascade="all, delete",
                                  passive_deletes=True)
 
     def __repr__(self):
@@ -45,7 +45,7 @@ class Order(Base):
 
 
 class Item(Base):
-    __tablename__ = "Item"
+    __tablename__ = "item"
     __table_args__ = {'extend_existing': True}
 
     id = sa.Column(sa.Integer, primary_key=True)
@@ -57,7 +57,7 @@ class Item(Base):
 
 
 class Customer(Base):
-    __tablename__ = "Customer"
+    __tablename__ = "customer"
     __table_args__ = {'extend_existing': True}
 
     id = sa.Column(sa.Integer, primary_key=True)
@@ -69,35 +69,34 @@ class Customer(Base):
 
 
 class OrderItem(Base):
-    __tablename__ = "OrderItem "
+    __tablename__ = "orderItem "
     __table_args__ = {'extend_existing': True}
 
-    order_id = sa.Column(sa.Integer, sa.ForeignKey("Order.id", ondelete="CASCADE"), primary_key=True)
-    item_id = sa.Column(sa.String, sa.ForeignKey("Item.id", ondelete="CASCADE"), nullable=False)
+    order_id = sa.Column(sa.Integer, sa.ForeignKey("order.id", ondelete="CASCADE"), primary_key=True)
+    item_id = sa.Column(sa.Integer, sa.ForeignKey("item.id", ondelete="CASCADE"), nullable=False)
     quantity = sa.Column(sa.Integer, nullable=False)
     description = sa.Column(sa.String, nullable=True)
-    order = relationship(Order, back_populates="OrderItem")
-    item = relationship(Item, back_populates="OrderItem")
+    order = relationship(Order, back_populates="orderItem")
+    item = relationship(Item, back_populates="orderItem")
 
     def __repr__(self):
         return f"{self.__class__.__name__}({', '.join([f'{k}={v!r}' for k, v in self.__dict__.items() if not k.startswith('_')])}) "
 
-
-class Bill(Base):
-    __tablename__ = "Bill"
-    __table_args__ = {'extend_existing': True}
-
-    order_id = sa.Column(sa.Integer, sa.ForeignKey("Order.id", ondelete="CASCADE"), primary_key=True)
-    total_cost = sa.Column(sa.Float, nullable=False)
-    order_time = sa.Column(sa.DATETIME, nullable=False, default=datetime.utcnow)
-    description = sa.Column(sa.String, nullable=False)
-    employee_id = sa.Column(sa.Integer, sa.ForeignKey("Employee.id"))
-    customer_id = sa.Column(sa.Integer, sa.ForeignKey("Customer.id"))
-
-    order = relationship(Order, back_populates="Bill", uselist=False, cascade="all, delete",
-                         passive_deletes=True)
-    employee = relationship(Employee, back_populates="Bill")
-    customer = relationship(Customer, back_populates="Bill")
-
-    def __repr__(self):
-        return f"{self.__class__.__name__}({', '.join([f'{k}={v!r}' for k, v in self.__dict__.items() if not k.startswith('_')])}) "
+# class Bill(Base):
+#     __tablename__ = "Bill"
+#     __table_args__ = {'extend_existing': True}
+#
+#     order_id = sa.Column(sa.Integer, sa.ForeignKey("Order.id", ondelete="CASCADE"), primary_key=True)
+#     total_cost = sa.Column(sa.Float, nullable=False)
+#     # order_time = sa.Column(sa.DATETIME, nullable=False, default=datetime.utcnow)
+#     description = sa.Column(sa.String, nullable=False)
+#     employee_id = sa.Column(sa.Integer, sa.ForeignKey("Employee.id"))
+#     customer_id = sa.Column(sa.Integer, sa.ForeignKey("Customer.id"))
+#
+#     order = relationship(Order, back_populates="Bill", uselist=False, cascade="all, delete",
+#                          passive_deletes=True)
+#     employee = relationship(Employee, back_populates="Bill")
+#     customer = relationship(Customer, back_populates="Bill")
+#
+#     def __repr__(self):
+#         return f"{self.__class__.__name__}({', '.join([f'{k}={v!r}' for k, v in self.__dict__.items() if not k.startswith('_')])}) "
