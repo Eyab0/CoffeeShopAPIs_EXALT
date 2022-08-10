@@ -19,9 +19,8 @@ class Employee(Base):
     role = sa.Column(sa.String, nullable=False)
     orders_served = relationship('Order', back_populates='employee')
 
-
-def __repr__(self):
-    return f"{self.__class__.__name__}({', '.join([f'{k}={v!r}' for k, v in self.__dict__.items() if not k.startswith('_')])}) "
+    def __repr__(self):
+        return f"{self.__class__.__name__}({', '.join([f'{k}={v!r}' for k, v in self.__dict__.items() if not k.startswith('_')])}) "
 
 
 class Item(Base):
@@ -31,7 +30,7 @@ class Item(Base):
     id = sa.Column(sa.Integer, primary_key=True)
     name = sa.Column(sa.String, nullable=False)
     cost = sa.Column(sa.Float, nullable=False)
-    item_ordered = relationship('OrderItem', back_populates='item_de')
+    item_ordered = relationship('OrderItem', back_populates='item_details')
 
     def __repr__(self):
         return f"{self.__class__.__name__}({', '.join([f'{k}={v!r}' for k, v in self.__dict__.items() if not k.startswith('_')])}) "
@@ -76,7 +75,7 @@ class OrderItem(Base):
     quantity = sa.Column(sa.Integer, nullable=False)
     description = sa.Column(sa.String, nullable=True)
     order = relationship('Order', back_populates="items_ordered")
-    item_de = relationship('Item', back_populates="item_ordered")
+    item_details = relationship('Item', back_populates="item_ordered")
 
     def __repr__(self):
         return f"{self.__class__.__name__}({', '.join([f'{k}={v!r}' for k, v in self.__dict__.items() if not k.startswith('_')])}) "
