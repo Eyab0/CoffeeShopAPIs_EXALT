@@ -1,5 +1,4 @@
 HOST = "localhost"
-# DBNAME = "CoffeeShop"
-DBNAME = "test3"
+DBNAME = "CoffeeShop"
 USERNAME = "postgres"
 PASSWORD = "root"
