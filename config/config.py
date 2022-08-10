@@ -1,0 +1,5 @@
+HOST = "localhost"
+# DBNAME = "CoffeeShop"
+DBNAME = "test3"
+USERNAME = "postgres"
+PASSWORD = "root"
