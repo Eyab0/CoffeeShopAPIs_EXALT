@@ -1,4 +1,3 @@
-from flask_marshmallow import fields
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 from models.models import *
 from marshmallow_sqlalchemy.fields import Nested
