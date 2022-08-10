@@ -1,3 +1,4 @@
+from flask_marshmallow import fields
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 from models.models import *
 from marshmallow_sqlalchemy.fields import Nested
@@ -29,6 +30,7 @@ class OrderItemSchema(SQLAlchemyAutoSchema):
         model = OrderItem
         include_relationships = True
         load_instance = True
+        include_fk = True
 
 
 class OrderSchema(SQLAlchemyAutoSchema):
@@ -37,13 +39,11 @@ class OrderSchema(SQLAlchemyAutoSchema):
         include_fk = True
         load_instance = True
 
-    order_items = Nested(OrderItemSchema, many=True)
+    items_ordered = Nested(OrderItemSchema(only=("item_id", "quantity", "description"), many=True), many=True)
 
 
-# class BillSchema(SQLAlchemyAutoSchema):
-#     class Meta:
-#         model = Bill
-#         include_relationships = True
-#         load_instance = True
-#
-#     order = Nested(OrderSchema, many=False)
+class BillSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = Bill
+        include_relationships = True
+        load_instance = True
