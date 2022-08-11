@@ -17,6 +17,7 @@ class Employee(Base):
     address = sa.Column(sa.String, nullable=True)
     join_date = sa.Column(sa.DATE, nullable=False, default=datetime.now().strftime("%Y-%m-%d"))
     role = sa.Column(sa.String, nullable=False)
+    status = sa.Column(sa.String, nullable=True)
     orders_served = relationship('Order', back_populates='employee')
 
     def __repr__(self):
@@ -30,7 +31,6 @@ class Item(Base):
     id = sa.Column(sa.Integer, primary_key=True)
     name = sa.Column(sa.String, nullable=False)
     cost = sa.Column(sa.Float, nullable=False)
-
     item_ordered = relationship('OrderItem', back_populates='item_details')
 
     def __repr__(self):
@@ -42,8 +42,8 @@ class Customer(Base):
     __table_args__ = {'extend_existing': True}
 
     id = sa.Column(sa.Integer, primary_key=True)
-    name = sa.Column(sa.String, nullable=True)
-    phone_number = sa.Column(sa.String, nullable=True)
+    name = sa.Column(sa.String, nullable=True, default='Customer')
+    phone_number = sa.Column(sa.String, nullable=True, default='no Phone Number')
     orders_placed = relationship('Order', back_populates='customer')
 
     def __repr__(self):
@@ -55,11 +55,11 @@ class Order(Base):
     __table_args__ = {'extend_existing': True}
 
     id = sa.Column(sa.Integer, primary_key=True)
-
     employee_id = sa.Column(sa.Integer, sa.ForeignKey("employee.id"))
     employee = relationship(Employee, back_populates="orders_served")
     customer_id = sa.Column(sa.Integer, sa.ForeignKey("customer.id"))
     customer = relationship(Customer, back_populates="orders_placed")
+    status = sa.Column(sa.String, nullable=False, default='in Progress')
     items_ordered = relationship("OrderItem", back_populates="order")
 
     def __repr__(self):
@@ -86,8 +86,7 @@ class Bill(Base):
     __tablename__ = "Bill"
     __table_args__ = {'extend_existing': True}
 
-    id = sa.Column(sa.Integer, primary_key=True)
-    order_id = sa.Column(sa.Integer, sa.ForeignKey("order.id"))
+    order_id = sa.Column(sa.Integer, sa.ForeignKey("order.id"), primary_key=True)
     total_cost = sa.Column(sa.Float, nullable=False)
     order_time = sa.Column(sa.TIMESTAMP, nullable=False, default=datetime.utcnow)
     description = sa.Column(sa.String, nullable=True)

@@ -60,16 +60,5 @@
   - #### ``` DELETE ```
     * delete specific Bill 
 
----
-- ## OrderItem APIs 
-  - #### ``` GET ```
-     * all OrderItem details.
-     * specific OrderItem details.
-  - #### ``` POST ```
-    * create new OrderItem
-  - #### ``` PUT ```
-    * update OrderItem details.
-  - #### ``` DELETE ```
-    * delete specific OrderItem 
 
 
