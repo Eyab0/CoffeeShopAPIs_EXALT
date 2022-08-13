@@ -46,3 +46,4 @@ class BillSchema(SQLAlchemyAutoSchema):
         model = Bill
         include_relationships = True
         load_instance = True
+        include_fk = True

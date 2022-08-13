@@ -95,7 +95,7 @@ def update_item_info(item_id: int):
                }, 400
 
 
-def delete_item(item_id: int):
+def delete_item_info(item_id: int):
     """
     delete specific item
     :param item_id: the id of the item

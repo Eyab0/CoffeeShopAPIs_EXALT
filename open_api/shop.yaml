@@ -44,7 +44,7 @@ paths:
       tags:
         - Customer
       summary: Returns a list of all Customers.
-      operationId: controllers.customer_api.get_customer
+      operationId: controllers.customer_api.get_customers
       responses:
         '200':
           description: A JSON array of Customers info.
@@ -545,7 +545,7 @@ components:
             - 'in Progress'
             - 'Done'
             - 'Canceled'
-          example: 'Active'
+          example: 'in Progress'
           default: 'in Progress'
         items_ordered:
           type: array
@@ -566,7 +566,7 @@ components:
         order_id:
           type: integer
           format: int64
-          example: 3
+          example: 12
         item_id:
           type: integer
           format: int64
@@ -580,7 +580,6 @@ components:
           example: 'without sugar'
 
       required:
-        - order_id
         - item_id
         - quantity
     bill_info:

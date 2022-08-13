@@ -95,7 +95,7 @@ def update_order_info(order_id: int):
                }, 400
 
 
-def delete_order(order_id: int):
+def delete_order_info(order_id: int):
     """
     delete specific order
     :param order_id: the id of the order

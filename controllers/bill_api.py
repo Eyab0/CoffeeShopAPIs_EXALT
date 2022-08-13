@@ -95,7 +95,7 @@ def update_bill_info(bill_id: int):
                }, 400
 
 
-def delete_bill(bill_id: int):
+def delete_bill_info(bill_id: int):
     """
     delete specific bill
     :param bill_id: the id of the bill
