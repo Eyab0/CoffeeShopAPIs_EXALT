@@ -26,6 +26,8 @@ info:
     name: 'Eyab Ghifari'
     email: eyab.m.g@gmail.com
   version: 0.1.9
+servers:
+  - url: /shop
 tags:
   - name: Customer
     description: Everything about Customer

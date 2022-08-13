@@ -11,6 +11,8 @@ info:
     name: 'Eyab Ghifari'
     email: eyab.m.g@gmail.com
   version: 0.1.9
+servers:
+  - url: /manager
 tags:
   - name: Employee
     description: Everything about Employee
@@ -31,8 +33,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/employee_info'
-        '204':
-          description: No Content
         '400':
           description: Error Bad Request
     post:
@@ -109,25 +109,6 @@ paths:
               schema:
                 items:
                   $ref: '#/components/schemas/employee_info'
-        '404':
-          description: Employee Not Found
-        '400':
-          description: Error Bad Request
-    delete:
-      summary: delete an Employee by ID.
-      operationId: controllers.employee_api.delete_employee_info
-      tags:
-        - Employee
-      parameters:
-        - name: emp_id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '200':
-          description: Deleted Successfully
         '404':
           description: Employee Not Found
         '400':
