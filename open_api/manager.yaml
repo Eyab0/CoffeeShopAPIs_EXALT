@@ -39,7 +39,7 @@ paths:
       tags:
         - Employee
       summary: Creates a Employee.
-      operationId: controllers.employee_api.post_employee
+      operationId: controllers.employee_api.insert_new_employee
       requestBody:
         required: true
         content:

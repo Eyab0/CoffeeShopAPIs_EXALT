@@ -62,7 +62,7 @@ paths:
       tags:
         - Customer
       summary: Creates a Customer.
-      operationId: controllers.customer_api.post_customer
+      operationId: controllers.customer_api.insert_new_customer
       requestBody:
         required: true
         content:
@@ -159,7 +159,7 @@ paths:
       tags:
         - Item
       summary: Creates an Item.
-      operationId: controllers.item_api.post_item
+      operationId: controllers.item_api.insert_new_item
       requestBody:
         required: true
         content:
@@ -276,7 +276,7 @@ paths:
       tags:
         - Order
       summary: Creates an Order.
-      operationId: controllers.order_api.post_order
+      operationId: controllers.order_api.insert_new_order
       requestBody:
         required: true
         content:
@@ -393,7 +393,7 @@ paths:
       tags:
         - Bill
       summary: Creates an bill.
-      operationId: controllers.bill_api.post_bill
+      operationId: controllers.bill_api.insert_new_bill
       requestBody:
         required: true
         content:
