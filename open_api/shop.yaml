@@ -135,25 +135,6 @@ paths:
           description: Customer Not Found
         '400':
           description: Error Bad Request
-    delete:
-      tags:
-        - Customer
-      summary: delete an Customer by ID.
-      operationId: controllers.customer_api.delete_customer_info
-      parameters:
-        - name: customer_id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '200':
-          description: Deleted Successfully
-        '404':
-          description: Customer Not Found
-        '400':
-          description: Error Bad Request
   # item APIs
   /item:
     get:
@@ -562,7 +543,7 @@ components:
           type: string
           enum:
             - 'in Progress'
-            - 'Ready'
+            - 'Done'
             - 'Canceled'
           example: 'Active'
           default: 'in Progress'
@@ -575,7 +556,7 @@ components:
         - customer_id
         - items_ordered
     items_ordered_info:
-      title: info. of the Item
+      title: info. of the Items ordered
       type: object
       properties:
         id:
@@ -596,7 +577,7 @@ components:
           example: 16
         description:
           type: string
-          example: 'Coffee'
+          example: 'without sugar'
 
       required:
         - order_id
@@ -624,7 +605,6 @@ components:
           example: 230.99
         description:
           type: string
-          example: 'Take Away'
         order_time:
           type: string
           format: date-time
