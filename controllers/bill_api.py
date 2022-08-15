@@ -18,17 +18,17 @@ def get_bills():
         return jsonify(result), 200
 
 
-def show_bill_info(bill_id: int):
+def show_bill_info(order_id: int):
     """
     show the JSON info for a specific bill
-    :param bill_id:
+    :param order_id:
     :return:
     """
     try:
         with db.session_scope() as s:
-            bill = s.query(Bill).get(bill_id)
+            bill = s.query(Bill).get(order_id)
             if bill is None:
-                raise HTTPRequestError(msg=f" id {bill_id} Not Found !!", code=404)
+                raise HTTPRequestError(msg=f" id {order_id} Not Found !!", code=404)
             bill_schema = BillSchema()
             result = bill_schema.dump(bill)
             return jsonify(result), 200
@@ -65,24 +65,24 @@ def insert_new_bill():
                }, 400
 
 
-def update_bill_info(bill_id: int):
+def update_bill_info(order_id: int):
     """
     update the bill info
-    :param bill_id: id of the bill
+    :param order_id: id of the bill
     :return: the updated info of the bill
     """
     try:
         with db.session_scope() as s:
-            bill = s.query(Bill).get(bill_id)
+            bill = s.query(Bill).get(order_id)
             if bill is None:
-                raise HTTPRequestError(msg=f" id {bill_id} Not Found !!", code=404)
-            request.json["id"] = bill_id
+                raise HTTPRequestError(msg=f" id {order_id} Not Found !!", code=404)
+            request.json["order_id"] = order_id
             bill_schema = BillSchema()
             existing_bill_deserialized = bill_schema.load(request.json, session=db.sess)
             s.merge(existing_bill_deserialized)
             new_bill_serialize = bill_schema.dump(existing_bill_deserialized)
             return {
-                       "message": f"bill with id :{bill_id} Updated successfully",
+                       "message": f"bill with id :{order_id} Updated successfully",
                        "bill": new_bill_serialize
                    }, 200
     except HTTPRequestError as error:
@@ -95,18 +95,18 @@ def update_bill_info(bill_id: int):
                }, 400
 
 
-def delete_bill_info(bill_id: int):
+def delete_bill_info(order_id: int):
     """
     delete specific bill
-    :param bill_id: the id of the bill
+    :param order_id: the id of the bill
     :return: all bills info
     """
     try:
         with db.session_scope() as s:
-            bill = s.query(Bill).get(bill_id)
+            bill = s.query(Bill).get(order_id)
             if bill is None:
-                raise HTTPRequestError(msg=f" id {bill_id} Not Found !!", code=404)
-            deleted_id = bill.id
+                raise HTTPRequestError(msg=f" id {order_id} Not Found !!", code=404)
+            deleted_id = bill.order_id
             s.delete(bill)
             return {"message": f"bill with id :{deleted_id} deleted successfully"}, 200
     except HTTPRequestError as error:

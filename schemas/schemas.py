@@ -15,6 +15,7 @@ class ItemSchema(SQLAlchemyAutoSchema):
         model = Item
         include_relationships = True
         load_instance = True
+        include_fk = True
 
 
 class CustomerSchema(SQLAlchemyAutoSchema):
@@ -22,6 +23,7 @@ class CustomerSchema(SQLAlchemyAutoSchema):
         model = Customer
         include_relationships = True
         load_instance = True
+        include_fk = True
 
 
 class OrderItemSchema(SQLAlchemyAutoSchema):

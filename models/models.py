@@ -17,7 +17,7 @@ class Employee(Base):
     address = sa.Column(sa.String, nullable=True)
     join_date = sa.Column(sa.DATE, nullable=False, default=datetime.now().strftime("%Y-%m-%d"))
     role = sa.Column(sa.String, nullable=False)
-    status = sa.Column(sa.String, nullable=True)
+    status = sa.Column(sa.String, nullable=True, default='Active')
     orders_served = relationship('Order', back_populates='employee')
 
     def __repr__(self):
@@ -60,7 +60,8 @@ class Order(Base):
     customer_id = sa.Column(sa.Integer, sa.ForeignKey("customer.id"))
     customer = relationship(Customer, back_populates="orders_placed")
     status = sa.Column(sa.String, nullable=False, default='in Progress')
-    items_ordered = relationship("OrderItem", back_populates="order")
+    items_ordered = relationship("OrderItem", back_populates="order", cascade="all, delete",
+                                 passive_deletes=True)
 
     def __repr__(self):
         return f"{self.__class__.__name__}({', '.join([f'{k}={v!r}' for k, v in self.__dict__.items() if not k.startswith('_')])}) "
@@ -71,7 +72,7 @@ class OrderItem(Base):
     __table_args__ = {'extend_existing': True}
 
     id = sa.Column(sa.Integer, primary_key=True)
-    order_id = sa.Column(sa.Integer, sa.ForeignKey("order.id"), nullable=False)
+    order_id = sa.Column(sa.Integer, sa.ForeignKey("order.id", ondelete="CASCADE"), nullable=True)
     item_id = sa.Column(sa.Integer, sa.ForeignKey("item.id"), nullable=False)
     quantity = sa.Column(sa.Integer, nullable=False)
     description = sa.Column(sa.String, nullable=True)

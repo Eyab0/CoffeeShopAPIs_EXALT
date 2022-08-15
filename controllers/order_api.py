@@ -103,7 +103,7 @@ def delete_order_info(order_id: int):
     """
     try:
         with db.session_scope() as s:
-            order = s.query(OrderSchema).get(order_id)
+            order = s.query(Order).get(order_id)
             if order is None:
                 raise HTTPRequestError(msg=f" id {order_id} Not Found !!", code=404)
             deleted_id = order.id

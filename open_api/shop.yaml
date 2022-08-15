@@ -48,12 +48,6 @@ paths:
       responses:
         '200':
           description: A JSON array of Customers info.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/customer_info'
         '204':
           description: No Content
         '400':
@@ -145,12 +139,6 @@ paths:
       responses:
         '200':
           description: A JSON array of Items info.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/item_info'
         '204':
           description: No Content
         '400':
@@ -170,12 +158,6 @@ paths:
       responses:
         '201':
           description: Created Successfully
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/item_info'
         '400':
           description: Error Bad Request
   /item/{item_id}:
@@ -262,12 +244,6 @@ paths:
       responses:
         '200':
           description: A JSON array of Orders info.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/order_info'
         '204':
           description: No Content
         '400':
@@ -287,12 +263,6 @@ paths:
       responses:
         '201':
           description: Created Successfully
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/order_info'
         '400':
           description: Error Bad Request
   /order/{order_id}:
@@ -379,12 +349,6 @@ paths:
       responses:
         '200':
           description: A JSON array of bills info.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/bill_info'
         '204':
           description: No Content
         '400':
@@ -404,22 +368,16 @@ paths:
       responses:
         '201':
           description: Created Successfully
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/bill_info'
         '400':
           description: Error Bad Request
-  /bill/{bill_id}:
+  /bill/{order_id}:
     get:
       tags:
         - Bill
       summary: Returns a bill by ID.
       operationId: controllers.bill_api.show_bill_info
       parameters:
-        - name: bill_id
+        - name: order_id
           in: path
           required: true
           schema:
@@ -443,7 +401,7 @@ paths:
       tags:
         - Bill
       parameters:
-        - name: bill_id
+        - name: order_id
           in: path
           required: true
           schema:
@@ -473,7 +431,7 @@ paths:
       tags:
         - Bill
       parameters:
-        - name: bill_id
+        - name: order_id
           in: path
           required: true
           schema:
@@ -566,7 +524,7 @@ components:
         order_id:
           type: integer
           format: int64
-          example: 12
+          example: 10
         item_id:
           type: integer
           format: int64
