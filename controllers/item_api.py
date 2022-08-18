@@ -3,6 +3,9 @@ from models.models import Item
 from schemas.schemas import ItemSchema
 from database import init_db as db
 from custom_exceptions.HTTPRequestError import HTTPRequestError
+from controllers import utils
+
+api_type = "item"
 
 
 def get_items():
@@ -11,11 +14,7 @@ def get_items():
     :return: all items info
     """
 
-    with db.session_scope() as s:
-        item = s.query(Item).all()
-        item_schema = ItemSchema()
-        result = item_schema.dump(item, many=True)
-        return jsonify(result), 200
+    return utils.get_objects(model=Customer, schema=CustomerSchema())
 
 
 def show_item_info(item_id: int):
@@ -24,22 +23,7 @@ def show_item_info(item_id: int):
     :param item_id:
     :return:
     """
-    try:
-        with db.session_scope() as s:
-            item = s.query(Item).get(item_id)
-            if item is None:
-                raise HTTPRequestError(msg=f" id {item_id} Not Found !!", code=404)
-            item_schema = ItemSchema()
-            result = item_schema.dump(item)
-            return jsonify(result), 200
-    except HTTPRequestError as error:
-        return {
-                   "error": str(error.msg)
-               }, error.code
-    except Exception as error:
-        return {
-                   "error": str(error)
-               }, 400
+    return utils.show_object_info(object_id=item_id, model=Item, schema=ItemSchema())
 
 
 def insert_new_item():
@@ -48,21 +32,7 @@ def insert_new_item():
     :return:
     """
 
-    try:
-        item = ItemSchema().load(request.json, transient=True)
-        with db.session_scope() as s:
-            s.add(item)
-        item_schema = ItemSchema()
-        new_item = item_schema.dump(item)
-        return {
-                   "message": "Created new item.",
-                   "item": new_item
-               }, 201
-
-    except Exception as error:
-        return {
-                   "error": str(error)
-               }, 400
+    return utils.insert_new_object(schema=ItemSchema(), controller_type=api_type)
 
 
 def update_item_info(item_id: int):
@@ -71,28 +41,7 @@ def update_item_info(item_id: int):
     :param item_id: id of the item
     :return: the updated info of the item
     """
-    try:
-        with db.session_scope() as s:
-            item = s.query(Item).get(item_id)
-            if item is None:
-                raise HTTPRequestError(msg=f" id {item_id} Not Found !!", code=404)
-            request.json["id"] = item_id
-            item_schema = ItemSchema()
-            existing_item_deserialized = item_schema.load(request.json, session=db.sess)
-            s.merge(existing_item_deserialized)
-            new_item_serialize = item_schema.dump(existing_item_deserialized)
-            return {
-                       "message": f"item with id :{item_id} Updated successfully",
-                       "item": new_item_serialize
-                   }, 200
-    except HTTPRequestError as error:
-        return {
-                   "error": str(error.msg)
-               }, error.code
-    except Exception as error:
-        return {
-                   "error": str(error)
-               }, 400
+    return utils.update_object_info(object_id=item_id, model=Item, schema=ItemSchema(), controller_type=api_type)
 
 
 def delete_item_info(item_id: int):
@@ -101,19 +50,4 @@ def delete_item_info(item_id: int):
     :param item_id: the id of the item
     :return: all items info
     """
-    try:
-        with db.session_scope() as s:
-            item = s.query(Item).get(item_id)
-            if item is None:
-                raise HTTPRequestError(msg=f" id {item_id} Not Found !!", code=404)
-            deleted_id = item.id
-            s.delete(item)
-            return {"message": f"item with id :{deleted_id} deleted successfully"}, 200
-    except HTTPRequestError as error:
-        return {
-                   "error": str(error.msg)
-               }, error.code
-    except Exception as error:
-        return {
-                   "error": str(error)
-               }, 400
+    return utils.delete_object_info(object_id=item_id, model=Item, controller_type=api_type)

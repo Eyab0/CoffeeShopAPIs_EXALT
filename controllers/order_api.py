@@ -1,8 +1,8 @@
-from flask import jsonify, request
 from models.models import Order
 from schemas.schemas import OrderSchema
-from database import init_db as db
-from custom_exceptions.HTTPRequestError import HTTPRequestError
+from controllers import utils
+
+api_type = "order"
 
 
 def get_orders():
@@ -10,12 +10,7 @@ def get_orders():
     get JSON info of all orders
     :return: all orders info
     """
-
-    with db.session_scope() as s:
-        order = s.query(Order).all()
-        order_schema = OrderSchema()
-        result = order_schema.dump(order, many=True)
-        return jsonify(result), 200
+    return utils.get_objects(model=Order, schema=OrderSchema())
 
 
 def show_order_info(order_id: int):
@@ -24,22 +19,7 @@ def show_order_info(order_id: int):
     :param order_id:
     :return:
     """
-    try:
-        with db.session_scope() as s:
-            order = s.query(Order).get(order_id)
-            if order is None:
-                raise HTTPRequestError(msg=f" id {order_id} Not Found !!", code=404)
-            order_schema = OrderSchema()
-            result = order_schema.dump(order)
-            return jsonify(result), 200
-    except HTTPRequestError as error:
-        return {
-                   "error": str(error.msg)
-               }, error.code
-    except Exception as error:
-        return {
-                   "error": str(error)
-               }, 400
+    return utils.show_object_info(object_id=order_id, model=Order, schema=OrderSchema())
 
 
 def insert_new_order():
@@ -48,21 +28,7 @@ def insert_new_order():
     :return:
     """
 
-    try:
-        order = OrderSchema().load(request.json, transient=True)
-        with db.session_scope() as s:
-            s.add(order)
-        order_schema = OrderSchema()
-        new_order = order_schema.dump(order)
-        return {
-                   "message": "Created new order.",
-                   "order": new_order
-               }, 201
-
-    except Exception as error:
-        return {
-                   "error": str(error)
-               }, 400
+    return utils.insert_new_object(schema=OrderSchema(), controller_type=api_type)
 
 
 def update_order_info(order_id: int):
@@ -71,28 +37,7 @@ def update_order_info(order_id: int):
     :param order_id: id of the order
     :return: the updated info of the order
     """
-    try:
-        with db.session_scope() as s:
-            order = s.query(Order).get(order_id)
-            if order is None:
-                raise HTTPRequestError(msg=f" id {order_id} Not Found !!", code=404)
-            request.json["id"] = order_id
-            order_schema = OrderSchema()
-            existing_order_deserialized = order_schema.load(request.json, session=db.sess)
-            s.merge(existing_order_deserialized)
-            new_order_serialize = order_schema.dump(existing_order_deserialized)
-            return {
-                       "message": f"order with id :{order_id} Updated successfully",
-                       "order": new_order_serialize
-                   }, 200
-    except HTTPRequestError as error:
-        return {
-                   "error": str(error.msg)
-               }, error.code
-    except Exception as error:
-        return {
-                   "error": str(error)
-               }, 400
+    return utils.update_object_info(object_id=order_id, model=Order, schema=OrderSchema(), controller_type=api_type)
 
 
 def delete_order_info(order_id: int):
@@ -101,19 +46,4 @@ def delete_order_info(order_id: int):
     :param order_id: the id of the order
     :return: all orders info
     """
-    try:
-        with db.session_scope() as s:
-            order = s.query(Order).get(order_id)
-            if order is None:
-                raise HTTPRequestError(msg=f" id {order_id} Not Found !!", code=404)
-            deleted_id = order.id
-            s.delete(order)
-            return {"message": f"order with id :{deleted_id} deleted successfully"}, 200
-    except HTTPRequestError as error:
-        return {
-                   "error": str(error.msg)
-               }, error.code
-    except Exception as error:
-        return {
-                   "error": str(error)
-               }, 400
+    return utils.delete_object_info(object_id=order_id, model=Order, controller_type=api_type)

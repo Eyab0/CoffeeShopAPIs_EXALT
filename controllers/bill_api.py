@@ -3,6 +3,9 @@ from models.models import Bill
 from schemas.schemas import BillSchema
 from database import init_db as db
 from custom_exceptions.HTTPRequestError import HTTPRequestError
+from controllers import utils
+
+api_type = "bill"
 
 
 def get_bills():
@@ -10,12 +13,7 @@ def get_bills():
     get JSON info of all bills
     :return: all bills info
     """
-
-    with db.session_scope() as s:
-        bill = s.query(Bill).all()
-        bill_schema = BillSchema()
-        result = bill_schema.dump(bill, many=True)
-        return jsonify(result), 200
+    return utils.get_objects(model=Bill, schema=BillSchema())
 
 
 def show_bill_info(order_id: int):
@@ -24,22 +22,7 @@ def show_bill_info(order_id: int):
     :param order_id:
     :return:
     """
-    try:
-        with db.session_scope() as s:
-            bill = s.query(Bill).get(order_id)
-            if bill is None:
-                raise HTTPRequestError(msg=f" id {order_id} Not Found !!", code=404)
-            bill_schema = BillSchema()
-            result = bill_schema.dump(bill)
-            return jsonify(result), 200
-    except HTTPRequestError as error:
-        return {
-                   "error": str(error.msg)
-               }, error.code
-    except Exception as error:
-        return {
-                   "error": str(error)
-               }, 400
+    return utils.show_object_info(object_id=order_id, model=Bill, schema=BillSchema())
 
 
 def insert_new_bill():
@@ -47,22 +30,7 @@ def insert_new_bill():
     insert new bill into JSON file
     :return:
     """
-
-    try:
-        bill = BillSchema().load(request.json, transient=True)
-        with db.session_scope() as s:
-            s.add(bill)
-        bill_schema = BillSchema()
-        new_bill = bill_schema.dump(bill)
-        return {
-                   "message": "Created new bill.",
-                   "bill": new_bill
-               }, 201
-
-    except Exception as error:
-        return {
-                   "error": str(error)
-               }, 400
+    return utils.insert_new_object(schema=BillSchema(), controller_type=api_type)
 
 
 def update_bill_info(order_id: int):
@@ -71,28 +39,7 @@ def update_bill_info(order_id: int):
     :param order_id: id of the bill
     :return: the updated info of the bill
     """
-    try:
-        with db.session_scope() as s:
-            bill = s.query(Bill).get(order_id)
-            if bill is None:
-                raise HTTPRequestError(msg=f" id {order_id} Not Found !!", code=404)
-            request.json["order_id"] = order_id
-            bill_schema = BillSchema()
-            existing_bill_deserialized = bill_schema.load(request.json, session=db.sess)
-            s.merge(existing_bill_deserialized)
-            new_bill_serialize = bill_schema.dump(existing_bill_deserialized)
-            return {
-                       "message": f"bill with id :{order_id} Updated successfully",
-                       "bill": new_bill_serialize
-                   }, 200
-    except HTTPRequestError as error:
-        return {
-                   "error": str(error.msg)
-               }, error.code
-    except Exception as error:
-        return {
-                   "error": str(error)
-               }, 400
+    return utils.update_object_info(object_id=order_id, model=Bill, schema=BillSchema(), controller_type=api_type)
 
 
 def delete_bill_info(order_id: int):
@@ -101,19 +48,4 @@ def delete_bill_info(order_id: int):
     :param order_id: the id of the bill
     :return: all bills info
     """
-    try:
-        with db.session_scope() as s:
-            bill = s.query(Bill).get(order_id)
-            if bill is None:
-                raise HTTPRequestError(msg=f" id {order_id} Not Found !!", code=404)
-            deleted_id = bill.order_id
-            s.delete(bill)
-            return {"message": f"bill with id :{deleted_id} deleted successfully"}, 200
-    except HTTPRequestError as error:
-        return {
-                   "error": str(error.msg)
-               }, error.code
-    except Exception as error:
-        return {
-                   "error": str(error)
-               }, 400
+    return utils.delete_object_info(object_id=order_id, model=Bill, controller_type=api_type)
