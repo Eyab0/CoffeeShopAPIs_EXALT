@@ -90,9 +90,8 @@ class Bill(Base):
     order_id = sa.Column(sa.Integer, sa.ForeignKey("order.id"), primary_key=True)
     total_cost = sa.Column(sa.Float, nullable=False)
     order_time = sa.Column(sa.TIMESTAMP, nullable=False, default=datetime.utcnow)
-    description = sa.Column(sa.String, nullable=True)
     employee_id = sa.Column(sa.Integer, sa.ForeignKey("employee.id"))
-    customer_id = sa.Column(sa.Integer, sa.ForeignKey("customer.id"))
+    customer_id = sa.Column(sa.Integer, sa.ForeignKey("customer.id"), nullable=True)
 
     def __repr__(self):
         return f"{self.__class__.__name__}({', '.join([f'{k}={v!r}' for k, v in self.__dict__.items() if not k.startswith('_')])}) "

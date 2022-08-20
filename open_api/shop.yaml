@@ -353,24 +353,24 @@ paths:
           description: No Content
         '400':
           description: Error Bad Request
+  /bill/{order_id}:
     post:
       tags:
         - Bill
       summary: Creates an bill.
       operationId: controllers.bill_api.insert_new_bill
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/bill_info'
-
+      parameters:
+        - name: order_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
       responses:
         '201':
           description: Created Successfully
         '400':
           description: Error Bad Request
-  /bill/{order_id}:
     get:
       tags:
         - Bill
@@ -560,8 +560,6 @@ components:
           type: number
           format: float
           example: 230.99
-        description:
-          type: string
         order_time:
           type: string
           format: date-time
