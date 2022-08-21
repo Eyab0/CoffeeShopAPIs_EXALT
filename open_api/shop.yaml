@@ -358,7 +358,7 @@ paths:
       tags:
         - Bill
       summary: Creates an bill.
-      operationId: controllers.bill_api.insert_new_bill
+      operationId: controllers.bill_api.generate_new_bill
       parameters:
         - name: order_id
           in: path
@@ -386,36 +386,6 @@ paths:
       responses:
         '200':
           description: Found
-          content:
-            application/json:
-              schema:
-                items:
-                  $ref: '#/components/schemas/bill_info'
-        '404':
-          description: Bill Not Found
-        '400':
-          description: Error Bad Request
-    put:
-      summary: update info of an bill.
-      operationId: controllers.bill_api.update_bill_info
-      tags:
-        - Bill
-      parameters:
-        - name: order_id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/bill_info'
-      responses:
-        '201':
-          description: Updated Successfully
           content:
             application/json:
               schema:

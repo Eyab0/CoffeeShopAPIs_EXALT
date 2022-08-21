@@ -14,7 +14,7 @@ def get_items():
     :return: all items info
     """
 
-    return utils.get_objects(model=Customer, schema=CustomerSchema())
+    return utils.get_objects(model=Item, schema=ItemSchema())
 
 
 def show_item_info(item_id: int):
