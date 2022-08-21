@@ -78,19 +78,25 @@ def generate_new_bill(order_id: int):
                }, 400
 
 
-def update_bill_info(order_id: int):
-    """
-    update the bill info
-    :param order_id: id of the bill
-    :return: the updated info of the bill
-    """
-    return utils.update_object_info(object_id=order_id, model=Bill, schema=BillSchema(), controller_type=api_type)
-
-
 def delete_bill_info(order_id: int):
     """
-    delete specific bill
-    :param order_id: the id of the bill
-    :return: all bills info
+    delete specific object
+    :param order_id:
+    :return: successfully operation
     """
-    return utils.delete_object_info(object_id=order_id, model=Bill, controller_type=api_type)
+    try:
+        with db.session_scope() as s:
+            _object = s.query(Bill).get(order_id)
+            if object is None:
+                raise HTTPRequestError(msg=f" id {order_id} Not Found !!", code=404)
+            deleted_id = _object.order_id
+            s.delete(_object)
+            return {"message": f"Bill with id {deleted_id} deleted successfully"}, 200
+    except HTTPRequestError as error:
+        return {
+                   "error": str(error.msg)
+               }, error.code
+    except Exception as error:
+        return {
+                   "error": str(error)
+               }, 400
