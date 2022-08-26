@@ -133,6 +133,13 @@ components:
         role:
           type: string
           example: 'cashier'
+        username:
+          type: string
+          example: 'ahmad99'
+        password:
+          type: string
+          format: password
+          example: '123456789'
         status:
           type: string
           enum:
@@ -145,3 +152,5 @@ components:
         - phone_number
         - date_of_birth
         - role
+        - username
+        - password

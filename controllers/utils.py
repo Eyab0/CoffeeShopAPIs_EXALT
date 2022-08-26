@@ -24,6 +24,7 @@ def show_object_info(object_id: int, model, schema):
     :param schema
     :return: object info
     """
+
     try:
         with db.session_scope() as s:
             _object = s.query(model).get(object_id)
@@ -49,6 +50,7 @@ def insert_new_object(schema, controller_type: str):
     :return:
     """
 
+    print(request.json['password'])
     try:
         _object = schema.load(request.json, transient=True)
         with db.session_scope() as s:
@@ -105,6 +107,7 @@ def delete_object_info(object_id: int, model, controller_type: str):
     :param object_id: the id of the object
     :return: all objects info
     """
+
     try:
         with db.session_scope() as s:
             _object = s.query(model).get(object_id)

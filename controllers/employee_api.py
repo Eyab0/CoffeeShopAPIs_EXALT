@@ -1,8 +1,16 @@
 from models.models import Employee
 from schemas.schemas import EmployeeSchema
 from controllers import utils
+from bcrypt import checkpw, hashpw, gensalt
+from flask import jsonify, request
 
 api_type = "employee"
+
+
+def hash_password(password_to_hash):
+    password_in_database = str.encode(password_to_hash)
+    hashed_password = hashpw(password_in_database, gensalt())
+    return hashed_password
 
 
 def get_employees():
@@ -28,7 +36,7 @@ def insert_new_employee():
     insert new employee into JSON file
     :return:
     """
-
+    request.json['password'] = hash_password(request.json['password'])
     return utils.insert_new_object(schema=EmployeeSchema(), controller_type=api_type)
 
 
