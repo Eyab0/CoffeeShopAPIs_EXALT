@@ -26,6 +26,15 @@ class Employee(Base):
     def __repr__(self):
         return f"{self.__class__.__name__}({', '.join([f'{k}={v!r}' for k, v in self.__dict__.items() if not k.startswith('_')])}) "
 
+    def check_password(self, entered_password):
+        password_in_database = str.encode(entered_password)
+        return checkpw(password_in_database, self.password)
+
+    def set_hash_password(self, password_to_hash):
+        password_in_database = str.encode(password_to_hash)
+        hashed_password = hashpw(password_in_database, gensalt())
+        self.password = hashed_password
+
 
 class Item(Base):
     __tablename__ = "item"

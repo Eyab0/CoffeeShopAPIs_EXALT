@@ -50,7 +50,6 @@ def insert_new_object(schema, controller_type: str):
     :return:
     """
 
-    print(request.json['password'])
     try:
         _object = schema.load(request.json, transient=True)
         with db.session_scope() as s:

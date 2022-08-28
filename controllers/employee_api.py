@@ -1,16 +1,10 @@
 from models.models import Employee
 from schemas.schemas import EmployeeSchema
 from controllers import utils
-from bcrypt import checkpw, hashpw, gensalt
-from flask import jsonify, request
+from flask import request
+from database import init_db as db
 
 api_type = "employee"
-
-
-def hash_password(password_to_hash):
-    password_in_database = str.encode(password_to_hash)
-    hashed_password = hashpw(password_in_database, gensalt())
-    return hashed_password
 
 
 def get_employees():
@@ -36,8 +30,32 @@ def insert_new_employee():
     insert new employee into JSON file
     :return:
     """
-    request.json['password'] = hash_password(request.json['password'])
-    return utils.insert_new_object(schema=EmployeeSchema(), controller_type=api_type)
+    password = request.json["password"]
+    employee_data = request.json
+    employee_data.pop("password")
+    try:
+        # schema = EmployeeSchema()
+        # _object = schema.load(employee_data, transient=True)
+        # with db.session_scope() as s:
+        #     s.add(_object)
+        # new_object = schema.dump(_object)
+        new_employee_deserialized = EmployeeSchema().load(employee_data, session=db.sess)
+        # with db.session_scope() as s:
+        db.sess.add(new_employee_deserialized)
+        new_employee_deserialized.set_hash_password(password)
+        db.sess.commit()
+        result = EmployeeSchema().dump(new_employee_deserialized, many=False)
+        print(new_employee_deserialized)
+        print(type(new_employee_deserialized))
+        return {
+                   "message": f"Created new {api_type}.",
+                   api_type: result
+               }, 201
+
+    except Exception as error:
+        return {
+                   "error": str(error)
+               }, 400
 
 
 def update_employee_info(emp_id: int):

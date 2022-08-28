@@ -1,0 +1,41 @@
+openapi: 3.0.3
+info:
+  title: login API
+  description: Employee Login API
+  version: 1.0.0
+servers:
+  - url: '/auth'
+paths:
+  /login:
+    post:
+      tags:
+        - Login
+      summary: Login using username and password
+      operationId: controllers.login_api.employee_login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/employee_login'
+      responses:
+        200:
+          description: access access_token
+        401:
+          description: Unauthorized
+
+components:
+  schemas:
+    employee_login:
+      title: username and password of the Employee
+      type: object
+      properties:
+        username:
+          type: string
+          example: 'ahmad10'
+        password:
+          type: string
+          example: '123456789Ahmad'
+      required:
+        - username
+        - password
