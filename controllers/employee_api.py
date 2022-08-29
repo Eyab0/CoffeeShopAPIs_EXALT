@@ -34,13 +34,7 @@ def insert_new_employee():
     employee_data = request.json
     employee_data.pop("password")
     try:
-        # schema = EmployeeSchema()
-        # _object = schema.load(employee_data, transient=True)
-        # with db.session_scope() as s:
-        #     s.add(_object)
-        # new_object = schema.dump(_object)
         new_employee_deserialized = EmployeeSchema().load(employee_data, session=db.sess)
-        # with db.session_scope() as s:
         db.sess.add(new_employee_deserialized)
         new_employee_deserialized.set_hash_password(password)
         db.sess.commit()
