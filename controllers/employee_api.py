@@ -1,6 +1,8 @@
 from models.models import Employee
 from schemas.schemas import EmployeeSchema
 from controllers import utils
+from flask import request
+from database import init_db as db
 
 api_type = "employee"
 
@@ -28,8 +30,26 @@ def insert_new_employee():
     insert new employee into JSON file
     :return:
     """
+    password = request.json["password"]
+    employee_data = request.json
+    employee_data.pop("password")
+    try:
+        new_employee_deserialized = EmployeeSchema().load(employee_data, session=db.sess)
+        db.sess.add(new_employee_deserialized)
+        new_employee_deserialized.set_hash_password(password)
+        db.sess.commit()
+        result = EmployeeSchema().dump(new_employee_deserialized, many=False)
+        print(new_employee_deserialized)
+        print(type(new_employee_deserialized))
+        return {
+                   "message": f"Created new {api_type}.",
+                   api_type: result
+               }, 201
 
-    return utils.insert_new_object(schema=EmployeeSchema(), controller_type=api_type)
+    except Exception as error:
+        return {
+                   "error": str(error)
+               }, 400
 
 
 def update_employee_info(emp_id: int):
