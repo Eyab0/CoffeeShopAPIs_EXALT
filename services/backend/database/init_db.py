@@ -1,7 +1,7 @@
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
-from config import config
-from models.models import Base
+from services.backend.config import config
+from services.backend.models.models import Base
 from contextlib import contextmanager
 
 DATABASE_URI = f"postgresql+psycopg2://postgres:{config.PASSWORD}@{config.HOST}:5432/{config.DBNAME}"

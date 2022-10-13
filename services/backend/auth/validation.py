@@ -1,5 +1,5 @@
 from flask import request
-from config import config
+from services.backend.config import config
 from jwt import decode
 
 

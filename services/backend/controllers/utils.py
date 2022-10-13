@@ -1,6 +1,6 @@
 from flask import jsonify, request
-from database import init_db as db
-from custom_exceptions.HTTPRequestError import HTTPRequestError
+from services.backend.database import init_db as db
+from services.backend.custom_exceptions.HTTPRequestError import HTTPRequestError
 
 
 def get_objects(model, schema):

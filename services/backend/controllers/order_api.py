@@ -1,6 +1,6 @@
-from models.models import Order
-from schemas.schemas import OrderSchema
-from controllers import utils
+from services.backend.models.models import Order
+from services.backend.schemas.schemas import OrderSchema
+from services.backend.controllers import utils
 
 api_type = "order"
 

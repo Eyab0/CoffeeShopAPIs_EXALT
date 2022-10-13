@@ -1,9 +1,6 @@
-from flask import jsonify, request
-from models.models import Item
-from schemas.schemas import ItemSchema
-from database import init_db as db
-from custom_exceptions.HTTPRequestError import HTTPRequestError
-from controllers import utils
+from services.backend.models.models import Item
+from services.backend.schemas.schemas import ItemSchema
+from services.backend.controllers import utils
 
 api_type = "item"
 
