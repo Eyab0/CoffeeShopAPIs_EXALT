@@ -1,5 +1,5 @@
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
-from models.models import *
+from services.backend.models.models import *
 from marshmallow_sqlalchemy.fields import Nested
 
 

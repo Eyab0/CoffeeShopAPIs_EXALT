@@ -1,8 +1,8 @@
-from models.models import Employee
-from schemas.schemas import EmployeeSchema
-from controllers import utils
+from services.backend.models.models import Employee
+from services.backend.schemas.schemas import EmployeeSchema
+from services.backend.controllers import utils
 from flask import request
-from database import init_db as db
+from services.backend.database import init_db as db
 
 api_type = "employee"
 

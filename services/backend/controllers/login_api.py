@@ -1,7 +1,7 @@
-from models.models import Employee
+from services.backend.models.models import Employee
 from flask import request
-from database import init_db as db
-from auth import access_token
+from services.backend.database import init_db as db
+from services.backend.auth import access_token
 
 
 def employee_login():

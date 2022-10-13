@@ -1,8 +1,8 @@
-from models.models import Bill, Order, Item
-from schemas.schemas import BillSchema, OrderSchema, ItemSchema
-from database import init_db as db
-from custom_exceptions.HTTPRequestError import HTTPRequestError
-from controllers import utils
+from services.backend.models.models import Bill, Order, Item
+from services.backend.schemas.schemas import BillSchema, OrderSchema, ItemSchema
+from services.backend.database import init_db as db
+from services.backend.custom_exceptions.HTTPRequestError import HTTPRequestError
+from services.backend.controllers import utils
 
 api_type = "bill"
 

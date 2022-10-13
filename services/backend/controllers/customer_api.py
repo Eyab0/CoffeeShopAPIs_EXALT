@@ -1,6 +1,6 @@
-from models.models import Customer
-from schemas.schemas import CustomerSchema
-from controllers import utils
+from services.backend.models.models import Customer
+from services.backend.schemas.schemas import CustomerSchema
+from services.backend.controllers import utils
 
 api_type = "customer"
 

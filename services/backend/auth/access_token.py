@@ -1,6 +1,6 @@
-from jwt import encode, decode
+from jwt import encode
 from datetime import timedelta, datetime
-from config import config
+from services.backend.config import config
 
 
 def generate_access_token(employee):
