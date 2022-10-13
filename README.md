@@ -12,6 +12,7 @@ Backend service for a coffee shop that mange the employees and customers and  al
 
 ## ER Diagram
 
+![CoffeeShopProjectERD](https://user-images.githubusercontent.com/61092637/195472595-5f5bb4ae-e0f6-4316-b7f0-b90a6e350967.jpg)
 
 
 ## API Reference
