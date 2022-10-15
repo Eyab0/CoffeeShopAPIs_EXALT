@@ -1,5 +1,5 @@
 
-# Coffee Shop APIs Project - EXALT Traning
+# Coffee Shop APIs Project - EXALT Training
 
 Backend service for a coffee shop that manages  the employees and customers and  allows them to take customer orders.
 
